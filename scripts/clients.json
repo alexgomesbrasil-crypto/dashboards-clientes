@@ -1,0 +1,11 @@
+{
+  "imperial-ville-898f85": {"name": "Imperial Ville", "platform": "meta", "account": "891199770704631", "lang": "pt",
+    "conv": "Leads", "conv_lower": "leads", "per_conv": "por lead", "cpa": "Custo/lead", "cli": "Cliques no link",
+    "conv_by_note": "Cadastros recebidos pelo formulário em cada campanha.", "ins_conv": "Mais leads", "ins_cpa": "Menor custo por lead"},
+  "debora-lima-894def": {"name": "Dra. Débora Lima – Advocacia Previdenciária", "platform": "google", "account": "499-341-7595",
+    "account_name": "Dra. Débora Lima - Advocacia Previdenciária", "lang": "pt"},
+  "sonia-martins-87494e": {"name": "Dra. Sonia Martins", "platform": "google", "account": "989-161-7833",
+    "account_name": "Dra. Sonia Martins", "lang": "pt"},
+  "dalessio-law-9605e0": {"name": "D'Alessio Law Firm", "platform": "google", "account": "750-879-3396",
+    "account_name": "D'Alessio Law Firm", "lang": "en"}
+}

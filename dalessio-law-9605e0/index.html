@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a1020">
+<title>D'Alessio Law Firm – Google Ads · Performance report</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="iv" id="topo">
+ <div class="iv-wrap">
+  <header class="iv-top">
+   <div>
+    <p class="iv-eyebrow">Google Ads · Performance report</p>
+    <h1 class="iv-title">D'Alessio Law Firm</h1>
+    <p class="iv-period">Period: <b data-draw="periodo">—</b></p>
+   </div>
+   <div class="iv-filter" role="group" aria-label="Choose a period">
+    <div class="iv-presets">
+     <button class="iv-btn" data-preset="7" aria-pressed="false">7 days</button>
+     <button class="iv-btn" data-preset="14" aria-pressed="false">14 days</button>
+     <button class="iv-btn" data-preset="30" aria-pressed="false">30 days</button>
+     <button class="iv-btn" data-preset="90" aria-pressed="false">90 days</button>
+     <button class="iv-btn" data-preset="mes" aria-pressed="false">This month</button>
+     <button class="iv-btn" data-preset="mesant" aria-pressed="false">Last month</button>
+     <button class="iv-btn" data-preset="custom" aria-pressed="false">Custom</button>
+    </div>
+    <div class="iv-dates iv-custom" hidden>
+     <label>From <input type="date" class="iv-d1" min="2020-01-01" max="2099-12-31"></label>
+     <label>To <input type="date" class="iv-d2" min="2020-01-01" max="2099-12-31"></label>
+     <button class="iv-btn on iv-apply">Apply</button>
+     <span class="iv-hint">Data available for the last 90 days</span>
+    </div>
+   </div>
+  </header>
+
+  <p class="iv-fatal" hidden>We couldn’t load the data right now. Please refresh the page in a few minutes.</p>
+
+  <p class="iv-empty" hidden>No ads ran during the selected period. Please pick other dates.</p>
+
+  <section class="iv-kpis" id="resumo" aria-label="Period summary">
+   <div class="iv-kpi k1"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M16 13h2"/><path d="M2 10h20"/><path d="M6 6V5a2 2 0 0 1 2-2h8"/></svg></div>
+    <div><p class="iv-kl">Ad spend</p><p class="iv-kv dash-skeleton" data-draw="kpi" data-k="inv" data-source="diario" data-fetchpriority="high">—</p><p class="iv-ks">Total spent in the period</p></div></div>
+   <div class="iv-kpi k2"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+    <div><p class="iv-kl">Impressions</p><p class="iv-kv dash-skeleton" data-draw="kpi" data-k="imp" data-source="diario">—</p><p class="iv-ks">Times your ads were shown</p></div></div>
+   <div class="iv-kpi k3"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9l5 12 1.8-5.2L21 14z"/><path d="M7.2 2.2 8 5.1"/><path d="M5.1 8 2.2 7.2"/><path d="M14 4.1 12 6"/><path d="M6 12l-1.9 2"/></svg></div>
+    <div><p class="iv-kl">Clicks</p><p class="iv-kv dash-skeleton" data-draw="kpi" data-k="cli" data-source="diario">—</p><p class="iv-ks">CTR <b data-draw="kpi" data-k="ctr" data-source="diario">—</b> · CPC <b data-draw="kpi" data-k="cpc" data-source="diario">—</b></p></div></div>
+   <div class="iv-kpi k4"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div>
+    <div><p class="iv-kl">Conversions</p><p class="iv-kv dash-skeleton" data-draw="kpi" data-k="conv" data-source="diario" data-fetchpriority="high">—</p><p class="iv-ks"><b data-draw="kpi" data-k="cpa" data-source="diario">—</b> per conversion</p></div></div>
+  </section>
+
+  <article class="iv-card" id="evolucao">
+   <div class="iv-ch">
+    <div><h2>Daily trend</h2><p class="iv-note">Pick a metric to see it day by day.</p></div>
+    <div class="iv-tabs">
+     <button class="iv-btn" data-metric="investimento" aria-pressed="false">Spend</button>
+     <button class="iv-btn" data-metric="conversoes" aria-pressed="false">Conversions</button>
+     <button class="iv-btn" data-metric="cliques" aria-pressed="false">Clicks</button>
+     <button class="iv-btn" data-metric="impressoes" aria-pressed="false">Impressions</button>
+    </div>
+   </div>
+   <div class="iv-chart" data-draw="trend" data-source="diario"></div>
+  </article>
+
+  <article class="iv-card" id="campanhas">
+   <div><h2>Campaigns</h2><p class="iv-note">Results for each campaign in the selected period, highest spend first.</p></div>
+   <div class="iv-tw" data-source="campanhas_dia">
+    <table class="iv-table">
+     <thead><tr><th>Campaign</th><th>Spend</th><th class="iv-hide-sm">Impressions</th><th>Clicks</th><th>Conversions</th><th>Cost/conv.</th><th class="iv-hide-sm">% impr.</th></tr></thead>
+     <tbody data-draw="tabela"></tbody>
+     <tfoot><tr><td>Total</td><td data-draw="tot" data-k="inv">—</td><td class="iv-hide-sm" data-draw="tot" data-k="imp">—</td><td data-draw="tot" data-k="cli">—</td><td data-draw="tot" data-k="conv">—</td><td data-draw="tot" data-k="cpa">—</td><td class="iv-hide-sm" data-draw="tot" data-k="pct">—</td></tr></tfoot>
+    </table>
+   </div>
+  </article>
+
+  <section class="iv-grid">
+   <article class="iv-card" id="conv-campanha">
+    <div><h2>Conversions by campaign</h2><p class="iv-note">Leads tracked as conversions in each campaign.</p></div>
+    <div class="iv-hbars" data-draw="cbars" data-k="conv" data-fmt="dec" data-source="campanhas_dia"></div>
+   </article>
+   <article class="iv-card" id="inv-campanha">
+    <div><h2>Spend by campaign</h2><p class="iv-note">How the budget was distributed.</p></div>
+    <div class="iv-hbars" data-draw="cbars" data-k="inv" data-fmt="brl" data-source="campanhas_dia"></div>
+   </article>
+   <article class="iv-card" id="destaques">
+    <div><h2>Highlights</h2><p class="iv-note">Top results for the period.</p></div>
+    <div class="iv-ins" data-source="campanhas_dia">
+     <div class="iv-in b"><p class="t">Most conversions</p><p class="n" data-draw="ins" data-k="conv_n">—</p><p class="v"><span data-draw="ins" data-k="conv_v">—</span> conversions</p></div>
+     <div class="iv-in c"><p class="t">Lowest cost per conversion</p><p class="n" data-draw="ins" data-k="cpa_n">—</p><p class="v"><span data-draw="ins" data-k="cpa_v">—</span> per conversion</p></div>
+     <div class="iv-in a"><p class="t">Highest spend</p><p class="n" data-draw="ins" data-k="inv_n">—</p><p class="v" data-draw="ins" data-k="inv_v">—</p></div>
+    </div>
+   </article>
+  </section>
+
+  <p class="iv-foot">Report prepared by Alex Furtado · Paid media management · Last updated: <span data-draw="upd">—</span></p>
+ </div>
+</div>
+<script src="../assets/d3.min.js"></script>
+<script src="../assets/shim.js"></script>
+<script>
+window.IV = {"loc": "en-US", "cur": "USD", "palette": ["#2dd4bf", "#3b82f6", "#f59e0b", "#a78bfa", "#ec4899", "#22c55e", "#38bdf8", "#f97316"], "t": {"fail": "Couldn’t load", "none": "No data for this period"}, "metrics": {"investimento": {"label": "Spend", "fmt": "brl", "color": "#2dd4bf"}, "conversoes": {"label": "Conversions", "fmt": "dec", "color": "#22c55e"}, "cliques": {"label": "Clicks", "fmt": "int", "color": "#f59e0b"}, "impressoes": {"label": "Impressions", "fmt": "int", "color": "#a78bfa"}}};
+</script>
+<script src="../assets/app.js"></script>
+<script>
+dash.draw('upd', (el) => { const a = dash.meta().atualizado; el.textContent = a ? new Date(a).toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; });
+dash.onData(() => { document.querySelectorAll('.iv-fatal').forEach((e) => { e.hidden = dash.data('diario').status !== 'error'; }); });
+dash.load('data.json');
+</script>
+</body>
+</html>
