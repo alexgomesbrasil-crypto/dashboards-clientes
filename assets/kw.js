@@ -1,6 +1,7 @@
 /* Palavras-chave e termos de pesquisa do Google Ads (kw_palavras_dia / kw_termos_dia do data.json), no período escolhido. */
 (() => {
 const C = window.IV, T = (window.KW || {}).t || {};
+const PAL = C.palette || ['#2dd4bf', '#3b82f6', '#f59e0b', '#a78bfa', '#ec4899', '#22c55e', '#38bdf8', '#f97316'];
 const nf = (o) => new Intl.NumberFormat(C.loc, o);
 const F = {
   brl: (v) => nf({ style: 'currency', currency: C.cur }).format(v),
@@ -58,11 +59,46 @@ dash.draw('kw-conv', (box) => {
   const max = cs[0].conv;
   cs.forEach((t, i) => {
     const row = el('div', 'iv-hb'), lab = el('div', 'iv-hb-l', t.texto); lab.title = t.texto;
-    const track = el('div', 'iv-hb-t'), bar = el('div', 'iv-hb-b'); bar.style.width = Math.max(2, t.conv / max * 100) + '%'; bar.style.background = C.palette[i % C.palette.length]; track.appendChild(bar);
+    const track = el('div', 'iv-hb-t'), bar = el('div', 'iv-hb-b'); bar.style.width = Math.max(2, t.conv / max * 100) + '%'; bar.style.background = PAL[i % PAL.length]; track.appendChild(bar);
     const v = el('div', 'iv-hb-v', F.dec(t.conv)); v.appendChild(el('span', 'ga-sub', ' · ' + F.brl(t.inv / t.conv)));
     row.append(lab, track, v); box.appendChild(row);
   });
 });
 
 dash.draw('kw-n', (e) => { const ts = agg(e.dataset.src); e.textContent = ts ? F.int(ts.filter((t) => e.dataset.k === 'conv' ? t.conv > 0 : t.imp > 0).length) : '—'; });
+/* palavras-chave mais acionadas (impressões) — barras */
+dash.draw('kw-top', (box) => {
+  box.replaceChildren();
+  const ks = agg('kw_palavras_dia'); if (!ks) return;
+  const top = ks.filter((k) => k.imp > 0).sort((a, b) => b.imp - a.imp).slice(0, 8);
+  if (!top.length) { box.appendChild(el('div', 'iv-none', C.t.none)); return; }
+  const max = top[0].imp, tot = ks.reduce((a, k) => a + k.imp, 0);
+  top.forEach((k, i) => {
+    const row = el('div', 'iv-hb'), lab = el('div', 'iv-hb-l', k.texto); lab.title = k.texto + (k.corresp ? ' (' + k.corresp + ')' : '');
+    const track = el('div', 'iv-hb-t'), bar = el('div', 'iv-hb-b'); bar.style.width = Math.max(2, k.imp / max * 100) + '%'; bar.style.background = PAL[i % PAL.length]; track.appendChild(bar);
+    const v = el('div', 'iv-hb-v', F.int(k.imp)); v.appendChild(el('span', 'ga-sub', ' · ' + F.pct(k.imp / tot)));
+    row.append(lab, track, v); box.appendChild(row);
+  });
+});
+
+/* tabela completa: impressões, cliques, conversões, CPC, CPM, CPA */
+const kwRows = () => { const ks = agg('kw_palavras_dia'); return ks ? ks.filter((k) => k.imp > 0).sort((a, b) => b.imp - a.imp) : null; };
+dash.draw('kw-tabela', (tb) => {
+  tb.replaceChildren();
+  const ks = kwRows(); if (!ks) return;
+  ks.forEach((k) => {
+    const tr = el('tr'), td0 = el('td');
+    if (k.corresp) td0.appendChild(el('span', 'iv-chip', k.corresp));
+    td0.appendChild(el('span', 'iv-cname', k.texto)); tr.appendChild(td0);
+    cells(tr, [[F.int(k.imp)], [F.int(k.cli)], [F.dec(k.conv), k.conv ? 'ga-pos' : null], [k.cli ? F.brl(k.inv / k.cli) : '—'],
+      [k.imp ? F.brl(k.inv / k.imp * 1000) : '—', 'iv-hide-sm'], [k.conv ? F.brl(k.inv / k.conv) : '—'], [F.brl(k.inv), 'iv-hide-sm']]);
+    tb.appendChild(tr);
+  });
+  if (!ks.length) empty(tb, 8);
+});
+dash.draw('kw-tot', (e) => {
+  const ks = kwRows(); if (!ks) { e.textContent = '—'; return; }
+  const S = (f) => ks.reduce((a, k) => a + k[f], 0), imp = S('imp'), cli = S('cli'), conv = S('conv'), inv = S('inv');
+  e.textContent = { imp: F.int(imp), cli: F.int(cli), conv: F.dec(conv), cpc: cli ? F.brl(inv / cli) : '—', cpm: imp ? F.brl(inv / imp * 1000) : '—', cpa: conv ? F.brl(inv / conv) : '—', inv: F.brl(inv) }[e.dataset.k];
+});
 })();

@@ -25,7 +25,8 @@
     "event": "click",
     "link_domain": "wa.me"
    }
-  }
+  },
+  "keywords": true
  },
  "sonia-martins-87494e": {
   "name": "Dra. Sonia Martins",
