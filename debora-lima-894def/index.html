@@ -122,17 +122,23 @@
    <p class="iv-note">Somente Google Ads, no período escolhido. <b>CPC</b> = custo por clique · <b>CPM</b> = custo a cada mil impressões · <b>CPA</b> = custo por conversão (aquisição).</p>
   </header>
 
-  <article class="iv-card" id="kw-top">
-   <div><h2>Mais acionadas</h2><p class="iv-note">Quantas vezes cada palavra-chave fez o anúncio aparecer (impressões) e a parcela do total.</p></div>
-   <div class="iv-hbars" data-draw="kw-top"></div>
-  </article>
+  <section class="iv-grid">
+   <article class="iv-card" id="kw-top">
+    <div><h2>Mais acionadas</h2><p class="iv-note">Quantas vezes cada palavra-chave fez o anúncio aparecer (impressões) e a parcela do total.</p></div>
+    <div class="iv-hbars" data-draw="kw-top"></div>
+   </article>
+   <article class="iv-card" id="kw-investimento">
+    <div><h2>Investimento por palavra-chave</h2><p class="iv-note">Quanto foi investido em cada palavra-chave acionada e a parcela do total.</p></div>
+    <div class="iv-hbars" data-draw="kw-inv"></div>
+   </article>
+  </section>
 
   <article class="iv-card" id="kw-tabela">
-   <div><h2>Resultado por palavra-chave</h2><p class="iv-note">Da mais acionada para a menos acionada. A etiqueta mostra o tipo de correspondência.</p></div>
+   <div><h2>Resultado por palavra-chave</h2><p class="iv-note">Da mais acionada para a menos acionada. A etiqueta mostra o tipo de correspondência.</p><p class="kw-swipe">Deslize a tabela para o lado para ver investimento, conversões, CPC, CPM e CPA →</p></div>
    <div class="iv-tw"><table class="iv-table">
-    <thead><tr><th>Palavra-chave</th><th>Impressões</th><th>Cliques</th><th>Conversões</th><th>CPC</th><th class="iv-hide-sm">CPM</th><th>CPA</th><th class="iv-hide-sm">Investimento</th></tr></thead>
+    <thead><tr><th>Palavra-chave</th><th>Impressões</th><th>Cliques</th><th>Investimento</th><th>Conversões</th><th>CPC</th><th class="iv-hide-sm">CPM</th><th>CPA</th></tr></thead>
     <tbody data-draw="kw-tabela"></tbody>
-    <tfoot><tr><td>Total</td><td data-draw="kw-tot" data-k="imp">—</td><td data-draw="kw-tot" data-k="cli">—</td><td data-draw="kw-tot" data-k="conv">—</td><td data-draw="kw-tot" data-k="cpc">—</td><td class="iv-hide-sm" data-draw="kw-tot" data-k="cpm">—</td><td data-draw="kw-tot" data-k="cpa">—</td><td class="iv-hide-sm" data-draw="kw-tot" data-k="inv">—</td></tr></tfoot>
+    <tfoot><tr><td>Total</td><td data-draw="kw-tot" data-k="imp">—</td><td data-draw="kw-tot" data-k="cli">—</td><td class="kw-inv" data-draw="kw-tot" data-k="inv">—</td><td data-draw="kw-tot" data-k="conv">—</td><td data-draw="kw-tot" data-k="cpc">—</td><td class="iv-hide-sm" data-draw="kw-tot" data-k="cpm">—</td><td data-draw="kw-tot" data-k="cpa">—</td></tr></tfoot>
    </table></div>
   </article>
 
