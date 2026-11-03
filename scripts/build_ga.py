@@ -10,7 +10,9 @@ Cada arquivo é a resposta do Windsor.ai get_data (connector googleanalytics4) c
   --local        date, country, region, city, sessions, engaged_sessions, conversions
   --leads-local  date, event_name, session_default_channel_group, country, region, city, event_count
   --paginas      date, landing_page, sessions, engaged_sessions, conversions
-"Leads" = evento form_submit (formulário enviado). Só o cliente com essa propriedade em clients.json é alterado.
+"Leads" = evento form_submit (formulário enviado), ou o que estiver em clients.json > ga.lead
+(ex.: Dra. Mariana: event click com link_domain wa.me = clique no WhatsApp; aí --leads e --leads-local
+precisam trazer também o campo link_domain). Só o cliente com essa propriedade em clients.json é alterado.
 """
 import argparse, json, os, collections
 
@@ -47,7 +49,8 @@ def main():
     slug = next(s for s, c in CLIENTS.items() if c.get('ga', {}).get('property') == a.property)
     path = os.path.join(ROOT, slug, 'data.json')
     out = json.load(open(path, encoding='utf-8')) if os.path.exists(path) else {}
-    is_lead = lambda r: r.get('event_name') == LEAD
+    ld = CLIENTS[slug]['ga'].get('lead', {'event': LEAD})
+    is_lead = lambda r: r.get('event_name') == ld['event'] and ('link_domain' not in ld or r.get('link_domain') == ld['link_domain'])
     out['ga_canal_dia'] = agg(load(a.canal), ['canal'], ['sessoes', 'engajadas', 'tempo', 'views'], a,
                               ['session_default_channel_group'], ['sessions', 'engaged_sessions', 'user_engagement_duration', 'screen_page_views'])
     out['ga_leads_dia'] = agg(load(a.leads), ['canal'], ['leads'], a, ['session_default_channel_group'], ['event_count'], is_lead)
@@ -59,7 +62,7 @@ def main():
     json.dump(out, open(path, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     S = lambda k, v: sum(r[v] for r in out[k])
     print(f"{slug} [GA4 {a.property}]: sessões {S('ga_canal_dia', 'sessoes')} | engajadas {S('ga_canal_dia', 'engajadas')} | "
-          f"leads (form_submit) {S('ga_leads_dia', 'leads')} | leads com localização {S('ga_leads_local', 'leads')} | "
+          f"leads {S('ga_leads_dia', 'leads')} | leads com localização {S('ga_leads_local', 'leads')} | "
           f"último dia com dados {max((r['data'] for r in out['ga_canal_dia']), default='—')}")
 
 if __name__ == '__main__':

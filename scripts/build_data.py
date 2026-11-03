@@ -91,7 +91,7 @@ def write(slug, camp, days, plats):
     os.makedirs(os.path.join(ROOT, slug), exist_ok=True)
     prev_path = os.path.join(ROOT, slug, 'data.json')
     if os.path.exists(prev_path):  # mantém os dados do Google Analytics (gravados por build_ga.py)
-        out.update({k: v for k, v in json.load(open(prev_path, encoding='utf-8')).items() if k.startswith('ga_')})
+        out.update({k: v for k, v in json.load(open(prev_path, encoding='utf-8')).items() if k.startswith(('ga_', 'kw_'))})
     json.dump(out, open(os.path.join(ROOT, slug, 'data.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     for label, rows in [('total', out['diario'])] + [(k, v) for k, v in out.get('diario_plataforma', {}).items()]:
         l30 = rows[-30:]
@@ -102,6 +102,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--start', required=True); ap.add_argument('--end', required=True)
     ap.add_argument('--google'); ap.add_argument('--meta', action='append', default=[])
+    ap.add_argument('--only', action='append', default=[], help='atualiza só estes clientes (slug)')
     a = ap.parse_args()
     s, e = datetime.date.fromisoformat(a.start), datetime.date.fromisoformat(a.end)
     days = [(s + datetime.timedelta(i)).isoformat() for i in range((e - s).days + 1)]
@@ -111,6 +112,7 @@ def main():
         acc, _, path = item.partition('=') if '=' in item else (DEFAULT_META, '', item)
         metas[acc] = load(path, 'ad_entities')
     for slug, c in CLIENTS.items():
+        if a.only and slug not in a.only: continue
         lang = c.get('lang', 'pt')
         plats = [p for p in ('google', 'meta') if p in c]
         have = {'google': 'google' in c and g is not None, 'meta': 'meta' in c and c['meta']['account'] in metas}

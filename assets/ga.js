@@ -24,6 +24,13 @@ const group = (rows, keyFn, vals) => {
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
 const none = (box) => box.appendChild(el('div', 'iv-none', C.t.none));
 const NOTSET = '(not set)';
+const VIEWS = (window.GA || {}).views || ['world', 'us'];
+const VIEW = () => dash.params().gmap || VIEWS[0];
+const plain = (x) => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/^state of /, '').trim();
+const BR_ALIAS = { 'federal district': 'distrito federal' };
+const NM = (window.GA || {}).names || {};
+const dn = (x) => NM[x] || x;
+let BRN = null; /* plain name -> official state name */
 const COUNTRY = { 'United States': 'United States of America', 'Dominican Republic': 'Dominican Rep.', 'Kyrgyz Republic': 'Kyrgyzstan', 'North Macedonia': 'Macedonia', 'Türkiye': 'Turkey',
   'Bosnia & Herzegovina': 'Bosnia and Herz.', 'Czechia': 'Czechia', 'Côte d’Ivoire': "Côte d'Ivoire", 'Central African Republic': 'Central African Rep.', 'South Sudan': 'S. Sudan',
   'Congo - Kinshasa': 'Dem. Rep. Congo', 'Congo - Brazzaville': 'Congo', 'Equatorial Guinea': 'Eq. Guinea', 'Eswatini': 'eSwatini', 'Solomon Islands': 'Solomon Is.' };
@@ -51,7 +58,7 @@ dash.draw('ga-note', (e) => {
 dash.onData(() => {
   document.querySelectorAll('[data-ga-src]').forEach((x) => { if (dash.data('ga_canal_dia').status !== 'loading') x.classList.remove('dash-skeleton'); });
   const p = dash.params();
-  document.querySelectorAll('[data-gmap]').forEach((b) => { const on = (p.gmap || 'world') === b.dataset.gmap; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  document.querySelectorAll('[data-gmap]').forEach((b) => { const on = VIEW() === b.dataset.gmap; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
   document.querySelectorAll('[data-gmet]').forEach((b) => { const on = (p.gmet || 'leads') === b.dataset.gmet; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
 });
 document.querySelectorAll('[data-gmap]').forEach((b) => b.addEventListener('click', () => dash.setParams({ gmap: b.dataset.gmap })));
@@ -69,7 +76,7 @@ dash.draw('ga-trend', (box) => {
   const rows = days.map((d) => ({ d, s: S.get(d) || 0, l: L.get(d) || 0 }));
   const W = Math.max(280, box.clientWidth), H = 240, ml = 40;
   const svg = d3.select(box).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
-  const x = d3.scaleBand(days, [ml, W - 8]).padding(0.25);
+  const x = d3.scaleBand(days, [ml, W - 8]).padding(Math.min(0.9, Math.max(0.25, 1 - 36 * days.length / (W - ml - 8))));
   const y = d3.scaleLinear([0, (d3.max(rows, (r) => r.s) || 1) * 1.15], [H - 28, 14]).nice();
   const g = svg.append('g');
   g.selectAll('line').data(y.ticks(4)).join('line').attr('x1', ml).attr('x2', W - 8).attr('y1', y).attr('y2', y).attr('stroke', 'var(--iv-grid)');
@@ -109,7 +116,7 @@ dash.draw('ga-canais', (tb) => {
   const max = ch.length ? ch[0].sessoes : 1;
   ch.forEach((o) => {
     const tr = el('tr'), td0 = el('td');
-    const nm = el('div', 'iv-cname', o.key);
+    const nm = el('div', 'iv-cname', dn(o.key));
     const track = el('div', 'iv-hb-t ga-mini'), bar = el('div', 'iv-hb-b'); bar.style.width = Math.max(2, o.sessoes / max * 100) + '%'; bar.style.background = '#38bdf8'; track.appendChild(bar);
     td0.append(nm, track); tr.appendChild(td0);
     const lv = L.get(o.key) || 0;
@@ -139,18 +146,20 @@ let GEO = null, geoErr = false;
 const geo = () => {
   if (GEO || geoErr) return;
   GEO = 'loading';
-  Promise.all(['../assets/maps/world-110m.json', '../assets/maps/us-states.json'].map((u) => fetch(u).then((r) => r.json())))
-    .then(([w, u]) => {
-      GEO = { world: topojson.feature(w, w.objects.countries).features, us: topojson.feature(u, u.objects.states).features, usNation: topojson.mesh(u, u.objects.nation) };
+  Promise.all(['../assets/maps/world-110m.json', '../assets/maps/us-states.json', '../assets/maps/brazil.json'].map((u) => fetch(u).then((r) => r.json())))
+    .then(([w, u, br]) => {
+      GEO = { world: topojson.feature(w, w.objects.countries).features, us: topojson.feature(u, u.objects.states).features, br };
+      BRN = new Map(br.locations.map((l) => [plain(l.name), l.name]));
       dash.setParams({});
     }).catch(() => { geoErr = true; GEO = null; dash.setParams({}); });
 };
 const mapData = () => {
-  const p = dash.params(), view = p.gmap || 'world', met = p.gmet || 'leads';
+  const p = dash.params(), view = VIEW(), met = p.gmet || 'leads';
   const src = met === 'leads' ? rowsOf('ga_leads_local') : rowsOf('ga_local_dia'); if (!src) return null;
   const k = met === 'leads' ? 'leads' : 'sessoes';
-  const rows = view === 'us' ? src.filter((r) => r.pais === 'United States') : src;
-  const areas = group(rows, (r) => view === 'us' ? r.regiao : r.pais, [k]).filter((o) => o.key !== NOTSET && o[k] > 0).sort((a, b) => b[k] - a[k]);
+  const rows = view === 'us' ? src.filter((r) => r.pais === 'United States') : view === 'br' ? src.filter((r) => r.pais === 'Brazil') : src;
+  const brName = (x) => { const q = plain(x); return (BRN && BRN.get(BR_ALIAS[q] || q)) || x; };
+  const areas = group(rows, (r) => view === 'us' ? r.regiao : view === 'br' ? (r.regiao === NOTSET ? NOTSET : brName(r.regiao)) : r.pais, [k]).filter((o) => o.key !== NOTSET && o[k] > 0).sort((a, b) => b[k] - a[k]);
   return { view, met, k, areas, total: sum(rows, k), rows };
 };
 dash.draw('ga-map', (box) => {
@@ -158,6 +167,27 @@ dash.draw('ga-map', (box) => {
   if (geoErr) { box.appendChild(el('div', 'iv-fail', C.t.fail)); return; }
   if (!GEO || GEO === 'loading') { geo(); return; }
   const md = mapData(); if (!md) return;
+  const hue = md.met === 'leads' ? '#22c55e' : '#38bdf8';
+  const label = md.met === 'leads' ? (T.leads || 'Form submissions') : (T.sessions || 'Sessions');
+  const legend = (max) => { const leg = el('div', 'ga-leg'); leg.append(el('span', null, '0'));
+    const ramp = el('span', 'ga-ramp'); ramp.style.background = `linear-gradient(90deg, #16304a, ${hue})`; leg.append(ramp, el('span', null, F.int(max) + ' ' + label.toLowerCase())); box.appendChild(leg); };
+  if (md.view === 'br') {
+    const val = new Map(md.areas.map((o) => [o.key, o])), max = md.areas.length ? md.areas[0][md.k] : 1;
+    const col = d3.scaleSequentialSqrt([0, max], d3.interpolateRgb('#16304a', hue));
+    const [, , vw, vh] = GEO.br.viewBox.split(' ').map(Number);
+    const W = Math.max(280, box.clientWidth), H = Math.min(Math.round(W * vh / vw), 520);
+    const svg = d3.select(box).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', GEO.br.viewBox).attr('preserveAspectRatio', 'xMidYMid meet');
+    const tip = el('div', 'iv-tip'); tip.hidden = true; const t1 = el('div', 'd'), t2 = el('div', 'v'); tip.append(t1, t2);
+    svg.append('g').selectAll('path').data(GEO.br.locations).join('path').attr('d', (l) => l.path)
+      .attr('fill', (l) => { const o = val.get(l.name); return o ? col(o[md.k]) : '#152038'; }).attr('stroke', '#0a1020').attr('stroke-width', 0.8)
+      .on('pointermove pointerdown', function (ev, l) { const o = val.get(l.name); d3.select(this).attr('stroke', '#e8edf7').attr('stroke-width', 1.5).raise();
+        t1.textContent = l.name; t2.textContent = label + ': ' + F.int(o ? o[md.k] : 0) + (o && md.total ? ' (' + F.pct(o[md.k] / md.total) + ')' : '');
+        tip.hidden = false; const r = box.getBoundingClientRect();
+        tip.style.left = Math.max(0, Math.min(box.clientWidth - tip.offsetWidth, ev.clientX - r.left - tip.offsetWidth / 2)) + 'px';
+        tip.style.top = Math.max(0, ev.clientY - r.top - tip.offsetHeight - 14) + 'px'; })
+      .on('pointerleave', function () { d3.select(this).attr('stroke', '#0a1020').attr('stroke-width', 0.8); tip.hidden = true; });
+    box.appendChild(tip); legend(max); return;
+  }
   const W = Math.max(280, box.clientWidth), H = md.view === 'us' ? Math.round(W * 0.62) : Math.round(W * 0.5);
   const svg = d3.select(box).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
   const feats = md.view === 'us' ? GEO.us : GEO.world.filter((f) => f.properties.name !== 'Antarctica');
@@ -165,10 +195,8 @@ dash.draw('ga-map', (box) => {
   const path = d3.geoPath(proj);
   const val = new Map(md.areas.map((o) => [md.view === 'us' ? o.key : (COUNTRY[o.key] || o.key), o]));
   const max = md.areas.length ? md.areas[0][md.k] : 1;
-  const hue = md.met === 'leads' ? '#22c55e' : '#38bdf8';
   const col = d3.scaleSequentialSqrt([0, max], d3.interpolateRgb('#16304a', hue));
   const tip = el('div', 'iv-tip'); tip.hidden = true; const t1 = el('div', 'd'), t2 = el('div', 'v'); tip.append(t1, t2);
-  const label = md.met === 'leads' ? (T.leads || 'Form submissions') : (T.sessions || 'Sessions');
   const show = (ev, name, o) => {
     t1.textContent = name; t2.textContent = label + ': ' + F.int(o ? o[md.k] : 0) + (o && md.total ? ' (' + F.pct(o[md.k] / md.total) + ')' : '');
     tip.hidden = false; const r = box.getBoundingClientRect();
@@ -179,34 +207,32 @@ dash.draw('ga-map', (box) => {
   svg.append('g').selectAll('path').data(feats).join('path').attr('d', path)
     .attr('fill', (f) => { const o = val.get(f.properties.name); return o ? col(o[md.k]) : '#152038'; })
     .attr('stroke', '#0a1020').attr('stroke-width', 0.6)
-    .on('pointermove pointerdown', function (ev, f) { const o = val.get(f.properties.name); d3.select(this).attr('stroke', '#e8edf7').attr('stroke-width', 1.2).raise(); show(ev, f.properties.name === 'United States of America' ? 'United States' : f.properties.name, o); })
+    .on('pointermove pointerdown', function (ev, f) { const o = val.get(f.properties.name); d3.select(this).attr('stroke', '#e8edf7').attr('stroke-width', 1.2).raise(); show(ev, dn(o ? o.key : f.properties.name === 'United States of America' ? 'United States' : f.properties.name), o); })
     .on('pointerleave', function () { d3.select(this).attr('stroke', '#0a1020').attr('stroke-width', 0.6); hide(); });
   if (md.view === 'world') {
     const small = md.areas.filter((o) => SMALL[o.key]);
     svg.append('g').selectAll('circle').data(small).join('circle').attr('cx', (o) => proj(SMALL[o.key])[0]).attr('cy', (o) => proj(SMALL[o.key])[1])
       .attr('r', (o) => 3 + 6 * Math.sqrt(o[md.k] / max)).attr('fill', (o) => col(o[md.k])).attr('stroke', '#e8edf7').attr('stroke-width', 1)
-      .on('pointermove pointerdown', (ev, o) => show(ev, o.key, o)).on('pointerleave', hide);
+      .on('pointermove pointerdown', (ev, o) => show(ev, dn(o.key), o)).on('pointerleave', hide);
   }
-  box.appendChild(tip);
-  const leg = el('div', 'ga-leg'); leg.append(el('span', null, '0'));
-  const ramp = el('span', 'ga-ramp'); ramp.style.background = `linear-gradient(90deg, #16304a, ${hue})`; leg.append(ramp, el('span', null, F.int(max) + ' ' + label.toLowerCase()));
-  box.appendChild(leg);
+  box.appendChild(tip); legend(max);
 });
 dash.draw('ga-areas', (box) => {
   box.replaceChildren();
+  if (!BRN && VIEWS.includes('br')) geo();
   const md = mapData(); if (!md) return;
   const top = md.areas.slice(0, 8);
   if (!top.length) return none(box);
   const max = top[0][md.k], hue = md.met === 'leads' ? '#22c55e' : '#38bdf8';
   top.forEach((o) => {
-    const row = el('div', 'iv-hb'), lab = el('div', 'iv-hb-l', o.key);
+    const row = el('div', 'iv-hb'), lab = el('div', 'iv-hb-l', dn(o.key));
     const track = el('div', 'iv-hb-t'), bar = el('div', 'iv-hb-b'); bar.style.width = Math.max(2, o[md.k] / max * 100) + '%'; bar.style.background = hue; track.appendChild(bar);
     const v = el('div', 'iv-hb-v', F.int(o[md.k])); v.appendChild(el('span', 'ga-sub', ' · ' + F.pct(o[md.k] / md.total)));
     row.append(lab, track, v); box.appendChild(row);
   });
 });
-dash.draw('ga-areas-title', (e) => { const p = dash.params(); const us = (p.gmap || 'world') === 'us', leads = (p.gmet || 'leads') === 'leads';
-  e.textContent = (us ? (T.topStates || 'Top U.S. states') : (T.topCountries || 'Top countries')) + ' · ' + (leads ? (T.leads || 'Form submissions') : (T.sessions || 'Sessions')).toLowerCase(); });
+dash.draw('ga-areas-title', (e) => { const p = dash.params(), v = VIEW(), leads = (p.gmet || 'leads') === 'leads';
+  e.textContent = (v === 'us' ? (T.topStates || 'Top U.S. states') : v === 'br' ? (T.topBR || 'Estados do Brasil') : (T.topCountries || 'Top countries')) + ' · ' + (leads ? (T.leads || 'Form submissions') : (T.sessions || 'Sessions')).toLowerCase(); });
 
 /* leads by city */
 dash.draw('ga-cidades', (tb) => {
@@ -214,11 +240,11 @@ dash.draw('ga-cidades', (tb) => {
   const l = rowsOf('ga_leads_local'); if (!l) return;
   const cs = group(l, (r) => [r.cidade, r.regiao, r.pais].join('|'), ['leads']).sort((a, b) => b.leads - a.leads || a.key.localeCompare(b.key));
   cs.slice(0, 12).forEach((o) => {
-    const ch = [...new Set(l.filter((r) => [r.cidade, r.regiao, r.pais].join('|') === o.key).map((r) => r.canal))].join(', ');
+    const ch = [...new Set(l.filter((r) => [r.cidade, r.regiao, r.pais].join('|') === o.key).map((r) => dn(r.canal)))].join(', ');
     const tr = el('tr');
     const city = o.r.cidade === NOTSET ? (T.unknown || 'Unknown city') : o.r.cidade;
-    const reg = o.r.regiao === NOTSET ? '' : o.r.regiao;
-    const td0 = el('td'); td0.append(el('span', 'iv-cname', city), el('span', 'ga-sub', [reg, o.r.pais].filter(Boolean).join(', ')));
+    const reg = o.r.regiao === NOTSET ? '' : o.r.pais === 'Brazil' && BRN ? (BRN.get(BR_ALIAS[plain(o.r.regiao)] || plain(o.r.regiao)) || o.r.regiao) : o.r.regiao;
+    const td0 = el('td'); td0.append(el('span', 'iv-cname', city), el('span', 'ga-sub', [reg, dn(o.r.pais)].filter(Boolean).join(', ')));
     tr.append(td0, el('td', 'iv-hide-sm ga-ch', ch), el('td', 'ga-pos', F.int(o.leads)));
     tb.appendChild(tr);
   });

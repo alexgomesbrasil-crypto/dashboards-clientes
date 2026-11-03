@@ -38,5 +38,22 @@
    "property": "558741151",
    "account_name": "D'Alessio Law"
   }
+ },
+ "mariana-nascimento-0cebad": {
+  "name": "Dra. Mariana Nascimento",
+  "lang": "pt",
+  "google": {
+   "account": "139-072-8707",
+   "account_name": "Mariana Nascimento"
+  },
+  "ga": {
+   "property": "562081470",
+   "account_name": "Propriedade Dra. Mariana Nascimento",
+   "lead": {
+    "event": "click",
+    "link_domain": "wa.me"
+   }
+  },
+  "keywords": true
  }
 }
