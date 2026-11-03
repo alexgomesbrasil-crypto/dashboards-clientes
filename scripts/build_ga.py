@@ -44,7 +44,8 @@ def agg(rows, keys, vals, a, src_keys, src_vals, keep=lambda r: True):
 
 def main():
     ap = argparse.ArgumentParser()
-    for f in ('property', 'start', 'end', 'canal', 'leads', 'local', 'leads-local', 'paginas'): ap.add_argument('--' + f, required=True)
+    for f in ('property', 'start', 'end', 'canal', 'leads', 'local', 'leads-local'): ap.add_argument('--' + f, required=True)
+    ap.add_argument('--paginas', help='opcional (site de uma página só não precisa)')
     a = ap.parse_args()
     slug = next(s for s, c in CLIENTS.items() if c.get('ga', {}).get('property') == a.property)
     path = os.path.join(ROOT, slug, 'data.json')
@@ -57,7 +58,7 @@ def main():
     out['ga_local_dia'] = agg(load(a.local), ['pais', 'regiao', 'cidade'], ['sessoes', 'engajadas'], a, ['country', 'region', 'city'], ['sessions', 'engaged_sessions'])
     out['ga_leads_local'] = agg(load(getattr(a, 'leads_local')), ['pais', 'regiao', 'cidade', 'canal'], ['leads'], a,
                                 ['country', 'region', 'city', 'session_default_channel_group'], ['event_count'], is_lead)
-    out['ga_pagina_dia'] = agg(load(a.paginas), ['pagina'], ['sessoes', 'engajadas'], a, ['landing_page'], ['sessions', 'engaged_sessions'])
+    if a.paginas: out['ga_pagina_dia'] = agg(load(a.paginas), ['pagina'], ['sessoes', 'engajadas'], a, ['landing_page'], ['sessions', 'engaged_sessions'])
     out['ga_periodo'] = [a.start, a.end]
     json.dump(out, open(path, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     S = lambda k, v: sum(r[v] for r in out[k])

@@ -116,7 +116,57 @@
    </article>
   </section>
 
-  <p class="iv-foot">Relatório preparado por Alex Furtado · Gestão de tráfego pago · Última atualização: <span data-draw="upd">—</span></p>
+  <header class="ga-head" id="analytics">
+   <p class="iv-eyebrow">Google Analytics 4 · Site</p>
+   <h2 class="ga-h">O que os visitantes fizeram no site</h2>
+   <p class="iv-note">Todas as visitas ao site, de todas as origens (Google, acesso direto, anúncios, indicações…), no mesmo período escolhido acima. Aqui, um contato é um clique no botão de WhatsApp do site.</p>
+   <p class="ga-alert" data-draw="ga-note" hidden></p>
+  </header>
+
+  <section class="iv-kpis ga-kpis" aria-label="Resumo do site">
+   <div class="iv-kpi k1"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg></div>
+    <div><p class="iv-kl">Visitas</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="ses" data-ga-src>—</p><p class="iv-ks"><b data-draw="ga-kpi" data-k="views">—</b> páginas vistas</p></div></div>
+   <div class="iv-kpi k3"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    <div><p class="iv-kl">Taxa de engajamento</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="eng" data-ga-src>—</p><p class="iv-ks">Visitas que ficaram 10s+ ou viram 2+ páginas</p></div></div>
+   <div class="iv-kpi k2"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+    <div><p class="iv-kl">Tempo médio por visita</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="tempo" data-ga-src>—</p><p class="iv-ks">Tempo ativo na página</p></div></div>
+   <div class="iv-kpi k4"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg></div>
+    <div><p class="iv-kl">Cliques no WhatsApp</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="leads" data-ga-src>—</p><p class="iv-ks"><b data-draw="ga-kpi" data-k="lrate">—</b> das visitas clicaram no WhatsApp</p></div></div>
+  </section>
+
+  <article class="iv-card" id="ga-mapa">
+   <div class="iv-ch">
+    <div><h2>De onde vêm as visitas e os contatos</h2><p class="iv-note">Localização de cada visita, detectada pelo Google Analytics. Toque num estado ou país para ver o número.</p></div>
+    <div class="ga-ctl">
+     <div class="iv-tabs"><button class="iv-btn" data-gmet="leads" aria-pressed="false">Contatos</button><button class="iv-btn" data-gmet="ses" aria-pressed="false">Visitas</button></div>
+     <div class="iv-tabs"><button class="iv-btn" data-gmap="br" aria-pressed="false">Brasil</button><button class="iv-btn" data-gmap="world" aria-pressed="false">Mundo</button></div>
+    </div>
+   </div>
+   <div class="ga-mapwrap">
+    <div class="ga-map" data-draw="ga-map"></div>
+    <div><h3 class="ga-h3" data-draw="ga-areas-title">Ranking</h3><div class="iv-hbars" data-draw="ga-areas"></div></div>
+   </div>
+  </article>
+
+  <section class="iv-grid">
+   <article class="iv-card" id="ga-cidades">
+    <div><h2>Contatos por cidade</h2><p class="iv-note">Cidades de onde clicaram no WhatsApp (<span data-draw="ga-cidades-n">—</span> cidades).</p></div>
+    <div class="iv-tw"><table class="iv-table"><thead><tr><th>Cidade</th><th class="iv-hide-sm">Origem</th><th>Contatos</th></tr></thead><tbody data-draw="ga-cidades"></tbody></table></div>
+   </article>
+   <article class="iv-card" id="ga-canais">
+    <div><h2>Origem das visitas</h2><p class="iv-note">Como os visitantes chegaram ao site e quais origens geraram contatos.</p></div>
+    <div class="iv-tw"><table class="iv-table"><thead><tr><th>Origem</th><th>Visitas</th><th class="iv-hide-sm">Engajadas</th><th>Contatos</th><th class="iv-hide-sm">Taxa</th></tr></thead><tbody data-draw="ga-canais"></tbody></table></div>
+   </article>
+  </section>
+
+  <article class="iv-card" id="ga-evolucao">
+   <div><h2>Visitas ao site por dia</h2><p class="iv-note">As barras azuis são as visitas; os círculos verdes mostram quantos cliques no WhatsApp houve no dia.</p></div>
+   <div class="iv-chart" data-draw="ga-trend"></div>
+  </article>
+
+
+
+  <p class="iv-foot">Relatório preparado por Alex Furtado · Gestão de tráfego pago · Site: Google Analytics 4 · Mapa do Brasil: SVG Maps (CC BY 4.0) · Última atualização: <span data-draw="upd">—</span></p>
  </div>
 </div>
 <script src="../assets/d3.min.js"></script>
@@ -128,7 +178,13 @@ window.IV = {"loc": "pt-BR", "cur": "BRL",
   "t": {"fail": "Não carregou", "none": "Sem dados neste período", "allPlats": "Google Ads + Meta Ads"},
   "metrics": {"investimento": {"label": "Investimento", "fmt": "brl"}, "conversoes": {"label": "Contatos", "fmt": "dec"}, "cliques": {"label": "Cliques", "fmt": "int"}, "impressoes": {"label": "Impressões", "fmt": "int"}}};
 </script>
+<script>window.GA = {"views": ["br", "world"], "t": {"sessions": "Visitas", "leads": "Cliques no WhatsApp", "since": "Dados do site (Analytics) disponíveis a partir de", "topStates": "Estados dos EUA", "topCountries": "Países", "topBR": "Estados do Brasil", "home": "Página inicial", "engaged": "engajadas", "unknown": "Cidade não identificada"},
+ "names": {"Brazil": "Brasil", "United States": "Estados Unidos", "Poland": "Polônia", "Portugal": "Portugal", "Argentina": "Argentina", "Germany": "Alemanha", "France": "França", "Spain": "Espanha", "Italy": "Itália", "United Kingdom": "Reino Unido", "Canada": "Canadá", "Mexico": "México", "Japan": "Japão", "China": "China", "India": "Índia", "Russia": "Rússia", "Netherlands": "Holanda", "Ireland": "Irlanda", "Singapore": "Singapura", "Paraguay": "Paraguai", "Uruguay": "Uruguai", "Chile": "Chile", "Colombia": "Colômbia", "Peru": "Peru",
+  "Direct": "Acesso direto", "Organic Search": "Busca orgânica (Google)", "Paid Search": "Anúncios no Google", "Referral": "Indicação de outro site", "Organic Social": "Redes sociais", "Paid Social": "Anúncios em redes sociais", "Unassigned": "Não identificada", "Email": "E-mail", "AI Assistant": "Assistente de IA", "Cross-network": "Várias redes (Google)", "Display": "Display", "Organic Video": "Vídeo (orgânico)"}};
+</script>
+<script src="../assets/topojson-client.min.js"></script>
 <script src="../assets/app-multi.js"></script>
+<script src="../assets/ga.js"></script>
 <script>
 dash.draw('upd', (el) => { const a = dash.meta().atualizado; el.textContent = a ? new Date(a).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; });
 dash.onData(() => { document.querySelectorAll('.iv-fatal').forEach((e) => { e.hidden = dash.data('campanhas_dia').status !== 'error'; }); });
