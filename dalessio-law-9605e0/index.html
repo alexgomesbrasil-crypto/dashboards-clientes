@@ -13,7 +13,7 @@
  <div class="iv-wrap">
   <header class="iv-top">
    <div>
-    <p class="iv-eyebrow">Google Ads · Performance report</p>
+    <p class="iv-eyebrow">Google Ads + Google Analytics · Performance report</p>
     <h1 class="iv-title">D'Alessio Law Firm</h1>
     <p class="iv-period">Period: <b data-draw="periodo">—</b></p>
    </div>
@@ -94,7 +94,61 @@
    </article>
   </section>
 
-  <p class="iv-foot">Report prepared by Alex Furtado · Paid media management · Last updated: <span data-draw="upd">—</span></p>
+
+  <header class="ga-head" id="analytics">
+   <p class="iv-eyebrow">Google Analytics 4 · Website</p>
+   <h2 class="ga-h">What visitors did on your website</h2>
+   <p class="iv-note">Every visit to the site, from all sources (Google, direct, ads, referrals…), in the same period selected above. A lead here is a contact form sent on the site.</p>
+   <p class="ga-alert" data-draw="ga-note" hidden></p>
+  </header>
+
+  <section class="iv-kpis ga-kpis" aria-label="Website summary">
+   <div class="iv-kpi k1"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg></div>
+    <div><p class="iv-kl">Visits (sessions)</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="ses" data-ga-src>—</p><p class="iv-ks"><b data-draw="ga-kpi" data-k="views">—</b> pages viewed</p></div></div>
+   <div class="iv-kpi k3"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    <div><p class="iv-kl">Engagement rate</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="eng" data-ga-src>—</p><p class="iv-ks">Visits that stayed 10s+ or viewed 2+ pages</p></div></div>
+   <div class="iv-kpi k2"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+    <div><p class="iv-kl">Avg. time per visit</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="tempo" data-ga-src>—</p><p class="iv-ks">Time actively on the page</p></div></div>
+   <div class="iv-kpi k4"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H5.2L4 17.2z"/><path d="M8 9h8"/><path d="M8 12h5"/></svg></div>
+    <div><p class="iv-kl">Leads (forms sent)</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="leads" data-ga-src>—</p><p class="iv-ks"><b data-draw="ga-kpi" data-k="lrate">—</b> of visits sent a form</p></div></div>
+  </section>
+
+  <article class="iv-card" id="ga-mapa">
+   <div class="iv-ch">
+    <div><h2>Where visitors and leads come from</h2><p class="iv-note">Location of each visit, as detected by Google Analytics. Tap a country or state to see its number.</p></div>
+    <div class="ga-ctl">
+     <div class="iv-tabs"><button class="iv-btn" data-gmet="leads" aria-pressed="false">Leads</button><button class="iv-btn" data-gmet="ses" aria-pressed="false">Visits</button></div>
+     <div class="iv-tabs"><button class="iv-btn" data-gmap="world" aria-pressed="false">World</button><button class="iv-btn" data-gmap="us" aria-pressed="false">United States</button></div>
+    </div>
+   </div>
+   <div class="ga-mapwrap">
+    <div class="ga-map" data-draw="ga-map"></div>
+    <div><h3 class="ga-h3" data-draw="ga-areas-title">Top</h3><div class="iv-hbars" data-draw="ga-areas"></div></div>
+   </div>
+  </article>
+
+  <section class="iv-grid">
+   <article class="iv-card" id="ga-cidades">
+    <div><h2>Leads by city</h2><p class="iv-note">Cities where the contact forms were sent from (<span data-draw="ga-cidades-n">—</span> locations).</p></div>
+    <div class="iv-tw"><table class="iv-table"><thead><tr><th>City</th><th class="iv-hide-sm">Came from</th><th>Leads</th></tr></thead><tbody data-draw="ga-cidades"></tbody></table></div>
+   </article>
+   <article class="iv-card" id="ga-canais">
+    <div><h2>Traffic sources</h2><p class="iv-note">How visitors found the website and which sources produced leads.</p></div>
+    <div class="iv-tw"><table class="iv-table"><thead><tr><th>Source</th><th>Visits</th><th class="iv-hide-sm">Engaged</th><th>Leads</th><th class="iv-hide-sm">Lead rate</th></tr></thead><tbody data-draw="ga-canais"></tbody></table></div>
+   </article>
+  </section>
+
+  <article class="iv-card" id="ga-evolucao">
+   <div><h2>Daily website visits</h2><p class="iv-note">Blue bars are visits; green circles show how many leads arrived that day.</p></div>
+   <div class="iv-chart" data-draw="ga-trend"></div>
+  </article>
+
+  <article class="iv-card" id="ga-paginas">
+   <div><h2>Top landing pages</h2><p class="iv-note">The first page people saw when they arrived, with the share of engaged visits.</p></div>
+   <div class="iv-hbars" data-draw="ga-paginas"></div>
+  </article>
+
+  <p class="iv-foot">Report prepared by Alex Furtado · Paid media management · Ads data: Google Ads · Website data: Google Analytics 4 · Last updated: <span data-draw="upd">—</span></p>
  </div>
 </div>
 <script src="../assets/d3.min.js"></script>
@@ -102,7 +156,10 @@
 <script>
 window.IV = {"loc": "en-US", "cur": "USD", "palette": ["#2dd4bf", "#3b82f6", "#f59e0b", "#a78bfa", "#ec4899", "#22c55e", "#38bdf8", "#f97316"], "t": {"fail": "Couldn’t load", "none": "No data for this period"}, "metrics": {"investimento": {"label": "Spend", "fmt": "brl", "color": "#2dd4bf"}, "conversoes": {"label": "Conversions", "fmt": "dec", "color": "#22c55e"}, "cliques": {"label": "Clicks", "fmt": "int", "color": "#f59e0b"}, "impressoes": {"label": "Impressions", "fmt": "int", "color": "#a78bfa"}}};
 </script>
+<script src="../assets/topojson-client.min.js"></script>
 <script src="../assets/app.js"></script>
+<script>window.GA = {"t": {"sessions": "Visits", "leads": "Leads", "since": "Website (Analytics) data available from", "topStates": "Top U.S. states", "topCountries": "Top countries", "home": "Home page", "engaged": "engaged", "unknown": "Unknown city"}};</script>
+<script src="../assets/ga.js"></script>
 <script>
 dash.draw('upd', (el) => { const a = dash.meta().atualizado; el.textContent = a ? new Date(a).toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; });
 dash.onData(() => { document.querySelectorAll('.iv-fatal').forEach((e) => { e.hidden = dash.data('diario').status !== 'error'; }); });

@@ -90,3 +90,20 @@ html, body { margin: 0; background: #0a1020; }
 .iv-tip .v .iv-dot { width: .5rem; height: .5rem; }
 .iv-sub2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 18px; }
 .iv-sub2 h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--iv-muted); }
+/* Google Analytics section */
+.ga-head { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--iv-line); display: grid; gap: 4px; }
+.ga-h { margin: 0; font-size: 20px; }
+.ga-h3 { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--iv-muted); }
+.ga-alert { margin: 6px 0 0; font-size: 12.5px; color: #fbbf24; }
+.ga-ctl { display: flex; flex-wrap: wrap; gap: 8px; }
+.ga-mapwrap { display: grid; grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 760px) { .ga-mapwrap { grid-template-columns: 1fr; } }
+.ga-map { position: relative; }
+.ga-map svg { display: block; touch-action: manipulation; }
+.ga-leg { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--iv-muted); margin-top: 8px; }
+.ga-ramp { width: 120px; height: 8px; border-radius: 4px; }
+.ga-sub { display: block; font-size: 11.5px; font-weight: 400; color: var(--iv-muted); }
+.iv-hb-v .ga-sub { display: inline; }
+.ga-mini { height: 6px; margin-top: 6px; max-width: 220px; }
+.ga-pos { color: #4ade80; font-weight: 600; }
+.ga-ch { color: var(--iv-muted); font-size: 12px; white-space: normal !important; }
