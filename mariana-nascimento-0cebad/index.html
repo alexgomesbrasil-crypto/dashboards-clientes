@@ -97,9 +97,29 @@
 
   <header class="ga-head" id="palavras">
    <p class="iv-eyebrow">Google Ads · Pesquisas no Google</p>
-   <h2 class="ga-h">O que as pessoas pesquisaram para encontrar o anúncio</h2>
-   <p class="iv-note">As <b>palavras-chave</b> são as escolhidas na campanha; os <b>termos de pesquisa</b> são o que a pessoa realmente digitou no Google quando o anúncio apareceu.</p>
+   <h2 class="ga-h">Palavras-chave mais acionadas e o que as pessoas pesquisaram</h2>
+   <p class="iv-note">As <b>palavras-chave</b> são as escolhidas na campanha; os <b>termos de pesquisa</b> são o que a pessoa realmente digitou no Google quando o anúncio apareceu. <b>CPC</b> = custo por clique · <b>CPM</b> = custo a cada mil impressões · <b>CPA</b> = custo por conversão.</p>
   </header>
+
+  <section class="iv-grid">
+   <article class="iv-card" id="kw-top">
+    <div><h2>Mais acionadas</h2><p class="iv-note">Quantas vezes cada palavra-chave fez o anúncio aparecer (impressões) e a parcela do total.</p></div>
+    <div class="iv-hbars" data-draw="kw-top"></div>
+   </article>
+   <article class="iv-card" id="kw-investimento">
+    <div><h2>Investimento por palavra-chave</h2><p class="iv-note">Quanto foi investido em cada palavra-chave acionada e a parcela do total.</p></div>
+    <div class="iv-hbars" data-draw="kw-inv"></div>
+   </article>
+  </section>
+
+  <article class="iv-card" id="kw-tabela">
+   <div><h2>Resultado por palavra-chave</h2><p class="iv-note">Da mais acionada para a menos acionada. A etiqueta mostra o tipo de correspondência.</p><p class="kw-swipe">Deslize a tabela para o lado para ver investimento, conversões, CPC, CPM e CPA →</p></div>
+   <div class="iv-tw"><table class="iv-table">
+    <thead><tr><th>Palavra-chave</th><th>Impressões</th><th>Cliques</th><th>Investimento</th><th>Conversões</th><th>CPC</th><th class="iv-hide-sm">CPM</th><th>CPA</th></tr></thead>
+    <tbody data-draw="kw-tabela"></tbody>
+    <tfoot><tr><td>Total</td><td data-draw="kw-tot" data-k="imp">—</td><td data-draw="kw-tot" data-k="cli">—</td><td class="kw-inv" data-draw="kw-tot" data-k="inv">—</td><td data-draw="kw-tot" data-k="conv">—</td><td data-draw="kw-tot" data-k="cpc">—</td><td class="iv-hide-sm" data-draw="kw-tot" data-k="cpm">—</td><td data-draw="kw-tot" data-k="cpa">—</td></tr></tfoot>
+   </table></div>
+  </article>
 
   <section class="iv-grid">
    <article class="iv-card" id="termos-conv">
@@ -112,10 +132,6 @@
    </article>
   </section>
 
-  <article class="iv-card" id="palavras-chave">
-   <div><h2>Palavras-chave da campanha</h2><p class="iv-note">Resultado de cada palavra-chave no período, das que mais converteram para as que menos converteram. A etiqueta mostra o tipo de correspondência.</p></div>
-   <div class="iv-tw"><table class="iv-table"><thead><tr><th>Palavra-chave</th><th class="iv-hide-sm">Impressões</th><th>Cliques</th><th class="iv-hide-sm">CTR</th><th>Investimento</th><th>Conversões</th><th>Custo/conv.</th></tr></thead><tbody data-draw="kw-palavras"></tbody></table></div>
-  </article>
 
   <header class="ga-head" id="analytics">
    <p class="iv-eyebrow">Google Analytics 4 · Site</p>

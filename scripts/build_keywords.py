@@ -37,10 +37,11 @@ def rows(src, acc, a, key, extra):
 def main():
     ap = argparse.ArgumentParser()
     for f in ('start', 'end', 'kw', 'termos'): ap.add_argument('--' + f, required=True)
+    ap.add_argument('--only', action='append', default=[], help='atualiza só estes clientes (slug)')
     a = ap.parse_args()
     kw, tm = load(a.kw), load(a.termos)
     for slug, c in CLIENTS.items():
-        if not c.get('keywords') or 'google' not in c: continue
+        if not c.get('keywords') or 'google' not in c or (a.only and slug not in a.only): continue
         acc = c['google']['account_name']
         path = os.path.join(ROOT, slug, 'data.json')
         out = json.load(open(path, encoding='utf-8')) if os.path.exists(path) else {}
