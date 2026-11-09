@@ -95,7 +95,7 @@ def write(slug, camp, days, plats):
     os.makedirs(os.path.join(ROOT, slug), exist_ok=True)
     prev_path = os.path.join(ROOT, slug, 'data.json')
     if os.path.exists(prev_path):  # mantém os dados do Google Analytics (gravados por build_ga.py)
-        out.update({k: v for k, v in json.load(open(prev_path, encoding='utf-8')).items() if k.startswith(('ga_', 'kw_'))})
+        out.update({k: v for k, v in json.load(open(prev_path, encoding='utf-8')).items() if k.startswith(('ga_', 'kw_', 'pub_'))})
     json.dump(out, open(os.path.join(ROOT, slug, 'data.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     for label, rows in [('total', out['diario'])] + [(k, v) for k, v in out.get('diario_plataforma', {}).items()]:
         l30 = rows[-30:]

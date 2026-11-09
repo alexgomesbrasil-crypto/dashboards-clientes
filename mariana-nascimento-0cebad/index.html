@@ -95,6 +95,59 @@
   </section>
 
 
+  <header class="ga-head" id="publico">
+   <p class="iv-eyebrow">Google Ads · Público</p>
+   <h2 class="ga-h">Quem viu e clicou nos anúncios</h2>
+   <p class="iv-note">Idade, gênero, renda, aparelho e cidade das pessoas alcançadas pelo Google Ads no período escolhido. Escolha a métrica:</p>
+   <div class="iv-tabs pub-tabs"><button class="iv-btn" data-pm="impressoes" aria-pressed="false">Impressões</button><button class="iv-btn" data-pm="cliques" aria-pressed="false">Cliques</button><button class="iv-btn" data-pm="conversoes" aria-pressed="false">Conversões</button><button class="iv-btn" data-pm="investimento" aria-pressed="false">Investimento</button></div>
+  </header>
+
+  <section class="pub-grid2">
+   <article class="iv-card"><div><h2>Por faixa etária</h2><p class="iv-note">Distribuição das <span data-pub-lbl>impressões</span> por idade.</p></div><div class="iv-chart pub-age" data-draw="pub-idade"></div></article>
+   <article class="iv-card"><div><h2>Distribuição por gênero</h2><p class="iv-note">% das <span data-pub-lbl>impressões</span>.</p></div><div data-draw="pub-genero"></div></article>
+  </section>
+
+  <section class="pub-cards">
+   <div class="pub-card c1"><p class="t">👥 Público principal</p><p class="n" data-draw="pub-card" data-k="gen">—</p><p class="v"><b data-draw="pub-card" data-k="genp">—</b></p><p class="s" data-draw="pub-card" data-k="age">—</p><p class="s">📍 <span data-draw="pub-card" data-k="city">—</span></p></div>
+   <div class="pub-card c2"><p class="t">🏆 Melhor campanha</p><p class="s" data-draw="pub-card" data-k="best">—</p><p class="n" data-draw="pub-card" data-k="bestv">—</p><p class="s">conversões</p></div>
+   <div class="pub-card c3"><p class="t">💲 Melhor custo</p><p class="s" data-draw="pub-card" data-k="cheap">—</p><p class="n" data-draw="pub-card" data-k="cheapv">—</p><p class="s">custo por conversão</p></div>
+  </section>
+
+  <section class="iv-grid">
+   <article class="iv-card"><div><h2>Distribuição por faixa de renda</h2><p class="iv-note">Faixas de renda medidas pelo Google Ads (% das <span data-pub-lbl>impressões</span>).</p></div><div class="pub-renda" data-draw="pub-renda"></div></article>
+   <article class="iv-card"><div><h2>Dispositivos utilizados</h2><p class="iv-note">Aparelho usado por quem viu o anúncio.</p></div><div data-draw="pub-disp"></div></article>
+  </section>
+
+  <article class="iv-card" id="pub-cidades">
+   <div><h2>Desempenho por cidade</h2><p class="iv-note">Cidades onde o anúncio apareceu, segundo o Google Ads (quando a localização foi identificada).</p></div>
+   <div class="pub-city">
+    <div data-draw="pub-cidade-donut"></div>
+    <div class="iv-tw"><table class="iv-table"><thead><tr><th>Cidade</th><th>Investido</th><th>Impr.</th><th class="iv-hide-sm">Cliques</th><th>Conv.</th><th class="iv-hide-sm">% impr.</th></tr></thead><tbody data-draw="pub-cidade-tab"></tbody></table></div>
+   </div>
+  </article>
+
+  <article class="iv-card pub-insights"><div><h2>💡 Insights do público</h2></div><ul data-draw="pub-ins"></ul></article>
+
+  <header class="ga-head" id="comparativo">
+   <p class="iv-eyebrow">Google Ads · Comparativos</p>
+   <h2 class="ga-h">Comparativo geral das campanhas</h2>
+  </header>
+  <section class="pub-cmp">
+   <article class="iv-card"><div class="iv-tw"><table class="iv-table"><thead><tr><th>Campanha</th><th>Investido</th><th class="iv-hide-sm">Impr.</th><th>Cliques</th><th>Conv.</th><th>CTR</th><th>CPC</th><th class="iv-hide-sm">Custo/conv.</th></tr></thead><tbody data-draw="cmp-tab"></tbody></table></div></article>
+   <article class="iv-card"><div><h2>Destaques do comparativo</h2></div><div class="iv-ins">
+    <div class="iv-in b"><p class="t">Maior alcance</p><p class="n" data-draw="cmp-dest" data-k="imp_n">—</p><p class="v" data-draw="cmp-dest" data-k="imp_v">—</p></div>
+    <div class="iv-in c"><p class="t">Melhor CTR</p><p class="n" data-draw="cmp-dest" data-k="ctr_n">—</p><p class="v" data-draw="cmp-dest" data-k="ctr_v">—</p></div>
+    <div class="iv-in a"><p class="t">Menor custo por clique</p><p class="n" data-draw="cmp-dest" data-k="cpc_n">—</p><p class="v" data-draw="cmp-dest" data-k="cpc_v">—</p></div>
+    <div class="iv-in b"><p class="t">Mais conversões</p><p class="n" data-draw="cmp-dest" data-k="conv_n">—</p><p class="v" data-draw="cmp-dest" data-k="conv_v">—</p></div>
+   </div></article>
+  </section>
+  <section class="pub-grid4">
+   <article class="iv-card"><div><h2>Investimento</h2></div><div class="iv-hbars" data-draw="cmp-bars" data-k="inv"></div></article>
+   <article class="iv-card"><div><h2>Impressões</h2></div><div class="iv-hbars" data-draw="cmp-bars" data-k="imp"></div></article>
+   <article class="iv-card"><div><h2>Conversões</h2></div><div class="iv-hbars" data-draw="cmp-bars" data-k="conv"></div></article>
+   <article class="iv-card"><div><h2>CTR (%)</h2></div><div class="iv-hbars" data-draw="cmp-bars" data-k="ctr"></div></article>
+  </section>
+
   <header class="ga-head" id="palavras">
    <p class="iv-eyebrow">Google Ads · Pesquisas no Google</p>
    <h2 class="ga-h">Palavras-chave mais acionadas e o que as pessoas pesquisaram</h2>
@@ -202,6 +255,7 @@ window.KW = {"t": {"noconv": "Nenhuma pesquisa gerou conversão neste período."
 <script src="../assets/app.js"></script>
 <script src="../assets/ga.js"></script>
 <script src="../assets/kw.js"></script>
+<script src="../assets/publico.js"></script>
 <script>
 dash.draw('upd', (el) => { const a = dash.meta().atualizado; el.textContent = a ? new Date(a).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; });
 dash.onData(() => { document.querySelectorAll('.iv-fatal').forEach((e) => { e.hidden = dash.data('diario').status !== 'error'; }); });

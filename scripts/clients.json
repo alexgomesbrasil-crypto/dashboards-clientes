@@ -64,6 +64,7 @@
     "link_domain": "wa.me"
    }
   },
-  "keywords": true
+  "keywords": true,
+  "publico": true
  }
 }
