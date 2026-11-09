@@ -12,6 +12,10 @@ Uso:
   Cada arquivo é a resposta de ads_get_ad_entities (level=campaign, time_increment=1) com
   name, effective_status, objective, amount_spent, impressions, link_click e lead e/ou results.
   Um caminho sem "CONTA=" vale para a conta do Imperial Ville (compatibilidade).
+--meta-windsor: alternativa ao --meta, pelo Windsor.ai (connector "facebook"), no formato CONTA=arquivo.
+  Campos: date, campaign, campaign_effective_status, campaign_objective, spend, impressions, link_clicks
+  e o campo de resultado indicado em clients.json > meta.windsor_result
+  (Dra. Débora: actions_onsite_conversion_messaging_conversation_started_7d). Pode vir no nível de anúncio (ad_name): o script soma.
 
 Clientes com as duas plataformas: se só uma fonte for informada, os dados da outra
 são mantidos do data.json atual. Só clientes com alguma fonte informada são regravados.
@@ -68,7 +72,7 @@ def tidy(rows):
         for m in ('investimento', 'impressoes', 'cliques', 'conversoes'): o[m] += r[m]
     camp = []
     for o in agg.values():
-        if o['investimento'] <= 0 and o['impressoes'] <= 0: continue
+        if o['investimento'] <= 0 and o['impressoes'] <= 0 and o['conversoes'] <= 0: continue
         o['investimento'] = round(o['investimento'], 2); o['impressoes'] = int(o['impressoes']); o['cliques'] = int(o['cliques']); o['conversoes'] = round(o['conversoes'], 2)
         camp.append(o)
     last = {}
@@ -102,6 +106,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--start', required=True); ap.add_argument('--end', required=True)
     ap.add_argument('--google'); ap.add_argument('--meta', action='append', default=[])
+    ap.add_argument('--meta-windsor', action='append', default=[])
     ap.add_argument('--only', action='append', default=[], help='atualiza só estes clientes (slug)')
     a = ap.parse_args()
     s, e = datetime.date.fromisoformat(a.start), datetime.date.fromisoformat(a.end)
@@ -111,6 +116,13 @@ def main():
     for item in a.meta:
         acc, _, path = item.partition('=') if '=' in item else (DEFAULT_META, '', item)
         metas[acc] = load(path, 'ad_entities')
+    for item in a.meta_windsor:
+        acc, _, path = item.partition('=')
+        cfg = next((c['meta'] for c in CLIENTS.values() if c.get('meta', {}).get('account') == acc), {})
+        res, field = cfg.get('windsor_result', 'actions_lead'), cfg.get('result', 'lead')
+        metas[acc] = [{'date_start': r['date'], 'name': r.get('campaign'), 'effective_status': r.get('campaign_effective_status'),
+                       'objective': r.get('campaign_objective'), 'amount_spent': r.get('spend'), 'impressions': r.get('impressions'),
+                       'link_click': r.get('link_clicks'), field: r.get(res)} for r in load(path, 'data')]
     for slug, c in CLIENTS.items():
         if a.only and slug not in a.only: continue
         lang = c.get('lang', 'pt')
