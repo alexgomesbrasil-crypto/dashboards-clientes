@@ -33,6 +33,7 @@ jobs:
           python3 scripts/build_keywords.py --start $START --end $END --kw $W/kw.json --termos $W/termos.json
           python3 scripts/build_publico.py --start $START --end $END --idade $W/pub_idade.json --genero $W/pub_genero.json --renda $W/pub_renda.json --dispositivo $W/pub_disp.json --cidade $W/pub_cidade.json
           python3 scripts/build_ga.py --property 558741151 --start $START --end $END --canal $W/ga_canal.json --leads $W/ga_leads.json --local $W/ga_local.json --leads-local $W/ga_leads_local.json --paginas $W/ga_paginas.json
+          python3 scripts/build_ga_extra.py --property 558741151 --start $START --end $END --dispositivo $W/ga_disp.json --usuario $W/ga_usuario.json --hora $W/ga_hora.json --hora-leads $W/ga_hora_leads.json
           python3 scripts/build_ga.py --property 562081470 --start $START --end $END --canal $W/gam_canal.json --leads $W/gam_leads.json --local $W/gam_local.json --leads-local $W/gam_leads_local.json --paginas $W/gam_paginas.json
           python3 scripts/build_ga.py --property 500740125 --start $START --end $END --canal $W/gad_canal.json --leads $W/gad_leads.json --local $W/gad_local.json --leads-local $W/gad_leads_local.json
 

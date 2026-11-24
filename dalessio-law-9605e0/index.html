@@ -148,6 +148,45 @@
    <div class="iv-hbars" data-draw="ga-paginas"></div>
   </article>
 
+  <header class="ga-head" id="analytics-more"><h2>More about the visitors</h2><p class="iv-note">Quality, devices and timing of the visits that came from your ads.</p></header>
+  <section class="iv-kpis ga-kpis" aria-label="Visit quality">
+   <div class="iv-kpi k1"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>
+    <div><p class="iv-kl">Pages per visit</p><p class="iv-kv dash-skeleton" data-draw="ga2-kpi" data-k="ppv">—</p><p class="iv-ks">Average pages viewed in each visit</p></div></div>
+   <div class="iv-kpi k3"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div>
+    <div><p class="iv-kl">Bounce rate</p><p class="iv-kv dash-skeleton" data-draw="ga2-kpi" data-k="bounce">—</p><p class="iv-ks">Visits that left quickly (not engaged)</p></div></div>
+   <div class="iv-kpi k2"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+    <div><p class="iv-kl">Time per engaged visit</p><p class="iv-kv dash-skeleton" data-draw="ga2-kpi" data-k="tengaged">—</p><p class="iv-ks">Only counts visits that engaged</p></div></div>
+   <div class="iv-kpi k4"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+    <div><p class="iv-kl">New visitors</p><p class="iv-kv dash-skeleton" data-draw="ga2-kpi" data-k="newshare">—</p><p class="iv-ks">Share of visits from first-time visitors</p></div></div>
+  </section>
+
+  <section class="iv-grid">
+   <article class="iv-card" id="ga2-dispositivo-card">
+    <div><h2>Devices</h2><p class="iv-note">Where visitors opened the site, with how many engaged and the average time.</p></div>
+    <div class="iv-hbars" data-draw="ga2-dispositivo"></div>
+   </article>
+   <article class="iv-card" id="ga2-usuario-card">
+    <div><h2>New vs. returning visitors</h2><p class="iv-note">First-time visitors compared with people who had been on the site before.</p></div>
+    <div class="iv-hbars" data-draw="ga2-usuario"></div>
+   </article>
+  </section>
+
+  <section class="iv-grid">
+   <article class="iv-card" id="ga2-semana-card">
+    <div><h2>Visits by day of the week</h2><p class="iv-note">Average visits per day; the number above a bar is the leads received on that weekday.</p></div>
+    <div data-draw="ga2-semana"></div>
+   </article>
+   <article class="iv-card" id="ga2-hora-card">
+    <div><h2>Visits by hour of the day</h2><p class="iv-note">Total visits per hour (time zone of the Analytics account); the number above a bar is the leads.</p></div>
+    <div data-draw="ga2-hora"></div>
+   </article>
+  </section>
+
+  <article class="iv-card" id="ga2-insights-card">
+   <div><h2>What the data says</h2><p class="iv-note">Automatic highlights for the selected period.</p></div>
+   <div data-draw="ga2-insights"></div>
+  </article>
+
   <p class="iv-foot">Report prepared by Alex Furtado · Paid media management · Ads data: Google Ads · Website data: Google Analytics 4 · Last updated: <span data-draw="upd">—</span></p>
  </div>
 </div>
@@ -160,6 +199,8 @@ window.IV = {"loc": "en-US", "cur": "USD", "palette": ["#2dd4bf", "#3b82f6", "#f
 <script src="../assets/app.js"></script>
 <script>window.GA = {"t": {"sessions": "Visits", "leads": "Leads", "since": "Website (Analytics) data available from", "topStates": "Top U.S. states", "topCountries": "Top countries", "home": "Home page", "engaged": "engaged", "unknown": "Unknown city"}};</script>
 <script src="../assets/ga.js"></script>
+<script>window.GA2 = {"t": {}};</script>
+<script src="../assets/ga2.js"></script>
 <script>
 dash.draw('upd', (el) => { const a = dash.meta().atualizado; el.textContent = a ? new Date(a).toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'; });
 dash.onData(() => { document.querySelectorAll('.iv-fatal').forEach((e) => { e.hidden = dash.data('diario').status !== 'error'; }); });

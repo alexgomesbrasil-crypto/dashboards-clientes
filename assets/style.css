@@ -148,3 +148,13 @@ html, body { margin: 0; background: #0a1020; }
 .pub-insights ul { margin: 6px 0 0; padding-left: 0; list-style: none; display: grid; gap: 10px; font-size: 13.5px; }
 .pub-insights li { padding-left: 26px; position: relative; }
 .pub-insights li::before { content: '💡'; position: absolute; left: 0; }
+
+/* extra GA4 blocks (ga2.js) */
+.ga2-cols { display: flex; align-items: flex-end; gap: 4px; height: 190px; padding-top: 4px; }
+.ga2-col { flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 3px; }
+.ga2-bar { width: 100%; background: #60a5fa; border-radius: 4px 4px 0 0; min-height: 0; }
+.ga2-has { box-shadow: 0 0 0 1px #34d399 inset; background: #3b82c4; }
+.ga2-n { height: 16px; font-size: 11px; font-weight: 700; color: #34d399; line-height: 16px; }
+.ga2-x { height: 16px; font-size: 10.5px; color: var(--iv-muted); white-space: nowrap; }
+.ga2-ins { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 14px; line-height: 1.45; }
+@media (max-width: 640px) { #ga2-dispositivo-card .iv-hb, #ga2-usuario-card .iv-hb { grid-template-columns: minmax(0, 1fr) auto; row-gap: 4px; } #ga2-dispositivo-card .iv-hb-l, #ga2-usuario-card .iv-hb-l { grid-column: 1 / -1; white-space: normal; color: var(--iv-fg); } #ga2-dispositivo-card .iv-hb-t, #ga2-usuario-card .iv-hb-t { grid-column: 1; } }
