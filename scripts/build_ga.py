@@ -13,6 +13,8 @@ Cada arquivo é a resposta do Windsor.ai get_data (connector googleanalytics4) c
 "Leads" = evento form_submit (formulário enviado), ou o que estiver em clients.json > ga.lead
 (ex.: Dra. Mariana: event click com link_domain wa.me = clique no WhatsApp; aí --leads e --leads-local
 precisam trazer também o campo link_domain). Só o cliente com essa propriedade em clients.json é alterado.
+Se clients.json > ga.ads_only existir, só entram as visitas e leads dos anúncios (session_source_medium igual a
+ads_only.source_medium e landing_page numa de ads_only.landing_pages); aí todas as consultas precisam desses dois campos.
 """
 import argparse, json, os, collections
 
@@ -51,14 +53,22 @@ def main():
     path = os.path.join(ROOT, slug, 'data.json')
     out = json.load(open(path, encoding='utf-8')) if os.path.exists(path) else {}
     ld = CLIENTS[slug]['ga'].get('lead', {'event': LEAD})
-    is_lead = lambda r: r.get('event_name') == ld['event'] and ('link_domain' not in ld or r.get('link_domain') == ld['link_domain'])
+    ads = CLIENTS[slug]['ga'].get('ads_only')
+    norm = lambda x: '/' + str(x or '').split('?')[0].split('#')[0].strip('/').lower()
+    def anuncio(r):  # só visitas vindas dos anúncios (origem/mídia + página de destino), quando configurado
+        if not ads: return True
+        if 'session_source_medium' not in r or 'landing_page' not in r:
+            raise SystemExit(f"{slug}: ga.ads_only exige session_source_medium e landing_page em todas as consultas do GA4")
+        return r['session_source_medium'] == ads['source_medium'] and norm(r['landing_page']) in {norm(p) for p in ads['landing_pages']}
+    is_lead0 = lambda r: r.get('event_name') == ld['event'] and ('link_domain' not in ld or r.get('link_domain') == ld['link_domain'])
+    is_lead = lambda r: is_lead0(r) and anuncio(r)
     out['ga_canal_dia'] = agg(load(a.canal), ['canal'], ['sessoes', 'engajadas', 'tempo', 'views'], a,
-                              ['session_default_channel_group'], ['sessions', 'engaged_sessions', 'user_engagement_duration', 'screen_page_views'])
+                              ['session_default_channel_group'], ['sessions', 'engaged_sessions', 'user_engagement_duration', 'screen_page_views'], anuncio)
     out['ga_leads_dia'] = agg(load(a.leads), ['canal'], ['leads'], a, ['session_default_channel_group'], ['event_count'], is_lead)
-    out['ga_local_dia'] = agg(load(a.local), ['pais', 'regiao', 'cidade'], ['sessoes', 'engajadas'], a, ['country', 'region', 'city'], ['sessions', 'engaged_sessions'])
+    out['ga_local_dia'] = agg(load(a.local), ['pais', 'regiao', 'cidade'], ['sessoes', 'engajadas'], a, ['country', 'region', 'city'], ['sessions', 'engaged_sessions'], anuncio)
     out['ga_leads_local'] = agg(load(getattr(a, 'leads_local')), ['pais', 'regiao', 'cidade', 'canal'], ['leads'], a,
                                 ['country', 'region', 'city', 'session_default_channel_group'], ['event_count'], is_lead)
-    if a.paginas: out['ga_pagina_dia'] = agg(load(a.paginas), ['pagina'], ['sessoes', 'engajadas'], a, ['landing_page'], ['sessions', 'engaged_sessions'])
+    if a.paginas: out['ga_pagina_dia'] = agg(load(a.paginas), ['pagina'], ['sessoes', 'engajadas'], a, ['landing_page'], ['sessions', 'engaged_sessions'], anuncio)
     out['ga_periodo'] = [a.start, a.end]
     json.dump(out, open(path, 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
     S = lambda k, v: sum(r[v] for r in out[k])

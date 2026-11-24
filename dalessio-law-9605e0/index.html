@@ -97,14 +97,14 @@
 
   <header class="ga-head" id="analytics">
    <p class="iv-eyebrow">Google Analytics 4 · Website</p>
-   <h2 class="ga-h">What visitors did on your website</h2>
-   <p class="iv-note">Every visit to the site, from all sources (Google, direct, ads, referrals…), in the same period selected above. A lead here is a contact form sent on the site.</p>
+   <h2 class="ga-h">What people who clicked your ads did on the website</h2>
+   <p class="iv-note">Only visits that came from the Google Ads campaign above (organic search, direct and other traffic are excluded), in the same period selected above. A lead here is a contact form sent on the site.</p>
    <p class="ga-alert" data-draw="ga-note" hidden></p>
   </header>
 
   <section class="iv-kpis ga-kpis" aria-label="Website summary">
    <div class="iv-kpi k1"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18"/><path d="M12 3a15 15 0 0 0 0 18"/><circle cx="12" cy="12" r="9"/></svg></div>
-    <div><p class="iv-kl">Visits (sessions)</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="ses" data-ga-src>—</p><p class="iv-ks"><b data-draw="ga-kpi" data-k="views">—</b> pages viewed</p></div></div>
+    <div><p class="iv-kl">Visits from ads</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="ses" data-ga-src>—</p><p class="iv-ks"><b data-draw="ga-kpi" data-k="views">—</b> pages viewed</p></div></div>
    <div class="iv-kpi k3"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
     <div><p class="iv-kl">Engagement rate</p><p class="iv-kv dash-skeleton" data-draw="ga-kpi" data-k="eng" data-ga-src>—</p><p class="iv-ks">Visits that stayed 10s+ or viewed 2+ pages</p></div></div>
    <div class="iv-kpi k2"><div class="iv-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
@@ -115,7 +115,7 @@
 
   <article class="iv-card" id="ga-mapa">
    <div class="iv-ch">
-    <div><h2>Where visitors and leads come from</h2><p class="iv-note">Location of each visit, as detected by Google Analytics. Tap a country or state to see its number.</p></div>
+    <div><h2>Where ad visitors and leads come from</h2><p class="iv-note">Location of each visit, as detected by Google Analytics. Tap a country or state to see its number.</p></div>
     <div class="ga-ctl">
      <div class="iv-tabs"><button class="iv-btn" data-gmet="leads" aria-pressed="false">Leads</button><button class="iv-btn" data-gmet="ses" aria-pressed="false">Visits</button></div>
      <div class="iv-tabs"><button class="iv-btn" data-gmap="world" aria-pressed="false">World</button><button class="iv-btn" data-gmap="us" aria-pressed="false">United States</button></div>
@@ -133,18 +133,18 @@
     <div class="iv-tw"><table class="iv-table"><thead><tr><th>City</th><th class="iv-hide-sm">Came from</th><th>Leads</th></tr></thead><tbody data-draw="ga-cidades"></tbody></table></div>
    </article>
    <article class="iv-card" id="ga-canais">
-    <div><h2>Traffic sources</h2><p class="iv-note">How visitors found the website and which sources produced leads.</p></div>
+    <div><h2>Traffic sources</h2><p class="iv-note">Ad visits and the leads they produced.</p></div>
     <div class="iv-tw"><table class="iv-table"><thead><tr><th>Source</th><th>Visits</th><th class="iv-hide-sm">Engaged</th><th>Leads</th><th class="iv-hide-sm">Lead rate</th></tr></thead><tbody data-draw="ga-canais"></tbody></table></div>
    </article>
   </section>
 
   <article class="iv-card" id="ga-evolucao">
-   <div><h2>Daily website visits</h2><p class="iv-note">Blue bars are visits; green circles show how many leads arrived that day.</p></div>
+   <div><h2>Daily visits from ads</h2><p class="iv-note">Blue bars are visits; green circles show how many leads arrived that day.</p></div>
    <div class="iv-chart" data-draw="ga-trend"></div>
   </article>
 
   <article class="iv-card" id="ga-paginas">
-   <div><h2>Top landing pages</h2><p class="iv-note">The first page people saw when they arrived, with the share of engaged visits.</p></div>
+   <div><h2>Top landing pages</h2><p class="iv-note">The page people landed on after clicking an ad, with the share of engaged visits.</p></div>
    <div class="iv-hbars" data-draw="ga-paginas"></div>
   </article>
 

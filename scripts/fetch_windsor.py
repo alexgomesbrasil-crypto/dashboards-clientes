@@ -15,6 +15,9 @@ GA_LEADS_LOCAL = "date,event_name,session_default_channel_group,country,region,c
 GA_PAG = "date,landing_page,sessions,engaged_sessions,conversions"
 WA_LEADS = "date,event_name,link_domain,session_default_channel_group,devicecategory,event_count"
 WA_LEADS_LOCAL = "date,event_name,link_domain,session_default_channel_group,country,region,city,event_count"
+# D'Alessio: o GA4 não está vinculado ao Google Ads, então as visitas dos anúncios são
+# separadas por origem/mídia + página de destino (ver clients.json > ga.ads_only)
+ADS = lambda campos: campos.replace("date,", "date,session_source_medium,landing_page,", 1)
 PUB = lambda campo: f"date,account_name,{campo},impressions,clicks,spend,conversions"
 
 JOBS = {
@@ -27,9 +30,9 @@ JOBS = {
  "pub_disp":     ("google_ads", MARI, PUB("device")),
  "pub_cidade":   ("google_ads", MARI, PUB("city,region")),
  "meta_debora":  ("facebook", "1501891061337822", "date,account_name,campaign,campaign_effective_status,campaign_objective,ad_name,spend,impressions,link_clicks,actions_onsite_conversion_messaging_conversation_started_7d"),
- "ga_canal":     ("googleanalytics4", DALE, GA_CANAL), "ga_leads": ("googleanalytics4", DALE, GA_LEADS),
- "ga_local":     ("googleanalytics4", DALE, GA_LOCAL), "ga_leads_local": ("googleanalytics4", DALE, GA_LEADS_LOCAL),
- "ga_paginas":   ("googleanalytics4", DALE, GA_PAG),
+ "ga_canal":     ("googleanalytics4", DALE, ADS(GA_CANAL)), "ga_leads": ("googleanalytics4", DALE, ADS(GA_LEADS)),
+ "ga_local":     ("googleanalytics4", DALE, ADS(GA_LOCAL)), "ga_leads_local": ("googleanalytics4", DALE, ADS(GA_LEADS_LOCAL)),
+ "ga_paginas":   ("googleanalytics4", DALE, "date,session_source_medium,landing_page,sessions,engaged_sessions,conversions"),
  "gam_canal":    ("googleanalytics4", MARIGA, GA_CANAL), "gam_leads": ("googleanalytics4", MARIGA, WA_LEADS),
  "gam_local":    ("googleanalytics4", MARIGA, GA_LOCAL), "gam_leads_local": ("googleanalytics4", MARIGA, WA_LEADS_LOCAL),
  "gam_paginas":  ("googleanalytics4", MARIGA, GA_PAG),

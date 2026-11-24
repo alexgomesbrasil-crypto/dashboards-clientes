@@ -46,7 +46,14 @@
   },
   "ga": {
    "property": "558741151",
-   "account_name": "D'Alessio Law"
+   "account_name": "D'Alessio Law",
+   "ads_only": {
+    "source_medium": "google / cpc",
+    "landing_pages": [
+     "/family-immigration",
+     "/immigration/citizenship-and-naturalization"
+    ]
+   }
   }
  },
  "mariana-nascimento-0cebad": {
