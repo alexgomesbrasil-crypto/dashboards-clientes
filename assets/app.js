@@ -155,7 +155,7 @@ dash.draw('tabela', (tb) => {
     const td0 = document.createElement('td');
     const chip = document.createElement('span'); chip.className = 'iv-chip'; chip.textContent = c.tipo || '';
     const nm = document.createElement('span'); nm.className = 'iv-cname'; nm.textContent = c.campanha;
-    const st = document.createElement('span'); st.className = 'iv-st' + (/ativ|activ/i.test(c.status || '') ? ' on' : ''); st.textContent = c.status || '';
+    const st = document.createElement('span'); st.className = 'iv-st' + (/ativ|activ/i.test(c.status || '') ? ' on' : ''); st.textContent = ({ Active: 'Ativa', Paused: 'Pausada', Removed: 'Removida', Enabled: 'Ativa' })[c.status] || c.status || '';
     td0.append(chip, nm, st); tr.appendChild(td0);
     const vals = [[F.brl(c.inv)], [F.int(c.imp), 'h'], [F.int(c.cli)], [F.dec(c.conv)], [c.conv ? F.brl(c.inv / c.conv) : '—'], [totImp ? F.pct(c.imp / totImp).replace(/,00|\.00/, '') : '—', 'h']];
     vals.forEach(([v, h]) => { const td = document.createElement('td'); td.textContent = v; if (h) td.className = 'iv-hide-sm'; tr.appendChild(td); });
